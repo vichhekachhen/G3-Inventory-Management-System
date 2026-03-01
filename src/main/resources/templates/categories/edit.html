@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Edit Category - Inventory System</title>
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+</head>
+
+<body class="bg-light">
+    <div class="dashboard-container">
+        <div th:replace="~{fragments/layout :: sidebar(activePage='categories')}"></div>
+
+        <main class="main-content">
+            <div th:replace="~{fragments/layout :: header(pageTitle='Edit Category')}"></div>
+
+            <div class="container-fluid p-4">
+                <div class="row">
+                    <!-- Use categoryId consistently -->
+                    <form th:action="@{/categories/update/{categoryId}(categoryId=${category.categoryId})}" 
+                          th:object="${category}" method="post">
+
+                        <div class="mb-4">
+                            <label for="name" class="form-label">Category Name</label>
+                            <input type="text" id="name" th:field="*{name}" class="form-control" required>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="description" class="form-label">Description</label>
+                            <textarea id="description" th:field="*{description}" class="form-control"></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Update</button>
+                        <a th:href="@{/categories}" class="btn btn-secondary">Cancel</a>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

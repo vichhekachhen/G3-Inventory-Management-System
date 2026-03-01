@@ -16,18 +16,32 @@ public class CategoryService {
     }
 
     public List<Category> findAll() {
-        return categoryRepository.findAll();
-    }
-
-    public Category findById(Long id) {
-        return categoryRepository.findById(id).orElse(null);
+        return categoryRepository.findByStatus(1);
     }
 
     public Category saveCategory(Category category) {
         return categoryRepository.save(category);
     }
 
-    public void delete(Long id) {
-        categoryRepository.deleteById(id);
+    public Category findById(Long id) {
+        return categoryRepository
+                .findByCategoryIdAndStatus(id, 1)
+                .orElseThrow(() -> new RuntimeException("Category not found"));
     }
+
+    public void update(Long id, Category updatedCategory) {
+        Category existing = findById(id);
+        existing.setName(updatedCategory.getName());
+        existing.setDescription(updatedCategory.getDescription());
+        categoryRepository.save(existing);
+    }
+
+    public void deleteById(Long categoryId) {
+        Category category = categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new RuntimeException("Category not found"));
+
+        category.setStatus(0);
+        categoryRepository.save(category);
+    }
+
 }

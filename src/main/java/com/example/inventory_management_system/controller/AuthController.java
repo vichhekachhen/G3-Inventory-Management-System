@@ -10,7 +10,7 @@ public class AuthController {
         return "login"; // matches login.html
     }
 
-    @GetMapping("/dashboard")
+    @GetMapping("/home")
     public String dashboard() {
         return "dashboard"; // create a simple dashboard.html next
     }

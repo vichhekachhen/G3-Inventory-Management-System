@@ -21,4 +21,7 @@ public class Category {
     private String name;
 
     private String description;
+
+   @Column(nullable = false)
+private Integer status = 1;
 }
