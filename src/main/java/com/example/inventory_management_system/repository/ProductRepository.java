@@ -7,4 +7,8 @@ import com.example.inventory_management_system.entities.Product;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
+
+    boolean existsBySkuAndProductIdNot(String sku, Long productId);
+
+    boolean existsBySku(String sku);
 }

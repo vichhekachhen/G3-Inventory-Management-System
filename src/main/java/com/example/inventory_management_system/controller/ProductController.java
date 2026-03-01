@@ -5,10 +5,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.inventory_management_system.entities.Product;
+import com.example.inventory_management_system.service.CategoryService;
 import com.example.inventory_management_system.service.ProductService;
 
 @Controller
@@ -18,18 +22,38 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private CategoryService categoryService;
+
     @GetMapping
     public String listProducts(Model model) {
-        // 1. Fetch data from MySQL via the service layer
         List<Product> products = productService.getAllProducts();
-        
-        // 2. Add the list to the model so Thymeleaf can 'th:each' through it
         model.addAttribute("products", products);
-        
-        // 3. Set 'activePage' so the sidebar fragment highlights 'Products'
         model.addAttribute("activePage", "products");
-        
-        // 4. Return the path to your HTML file: src/main/resources/templates/products/list.html
         return "products/list";
+    }
+
+    @GetMapping("/add")
+    public String showAddForm(Model model) {
+        model.addAttribute("product", new Product());
+        model.addAttribute("categories", categoryService.findAll());
+        model.addAttribute("activePage", "products");
+        return "products/form";
+    }
+
+    @PostMapping("/save")
+    public String saveProduct(@ModelAttribute("product") Product product, BindingResult result, Model model) {
+        if (productService.isSkuTaken(product.getSku(), product.getProductId())) {
+            result.rejectValue("sku", "error.product", "SKU is already in use.");
+        }
+
+        if (result.hasErrors()) {
+            model.addAttribute("categories", categoryService.findAll());
+            model.addAttribute("activePage", "products");
+            return "products/form";
+        }
+
+        productService.saveProduct(product);
+        return "redirect:/products";
     }
 }

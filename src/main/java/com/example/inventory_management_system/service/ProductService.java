@@ -44,10 +44,20 @@ public class ProductService {
     }
 
     /**
-     * Optional: Logic to check if a product is low on stock 
-     * based on your min_stock_level field.
+     * Optional: Logic to check if a product is low on stock based on your
+     * min_stock_level field.
      */
     public boolean isLowStock(Product product) {
         return product.getCurrentQuantity() <= product.getMinStockLevel();
+    }
+
+    /**
+     * Checks if a SKU is already in use by another product.
+     */
+    public boolean isSkuTaken(String sku, Long id) {
+        if (id == null) {
+            return productRepository.existsBySku(sku);
+        }
+        return productRepository.existsBySkuAndProductIdNot(sku, id);
     }
 }
