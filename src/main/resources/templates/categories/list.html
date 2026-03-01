@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Categories - Inventory System</title>
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <div th:replace="~{fragments/layout :: sidebar(activePage='categories')}"></div>
+
+        <main class="main-content">
+            <div th:replace="~{fragments/layout :: header(pageTitle='Categories')}"></div>
+
+            <div class="container-fluid p-4">
+                <div class="d-flex justify-content-end mb-4">
+                    <a th:href="@{/categories/add}" class="btn btn-primary px-4 shadow-sm">
+                        <i class="bi bi-plus"></i> + Create New
+                    </a>
+                </div>
+
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body p-0">
+                        <table class="table table-hover mb-0 align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th class="ps-4 py-3 text-secondary text-uppercase" style="font-size: 0.75rem;">ID
+                                    </th>
+                                    <th class="py-3 text-secondary text-uppercase" style="font-size: 0.75rem;">Name</th>
+                                    <th class="py-3 text-secondary text-uppercase" style="font-size: 0.75rem;">
+                                        Description</th>
+                                    <th class="pe-4 py-3 text-secondary text-uppercase text-end"
+                                        style="font-size: 0.75rem;">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="cat : ${categories}">
+                                    <td class="ps-4" th:text="${cat.categoryId}">1</td>
+                                    <td class="fw-bold text-dark" th:text="${cat.name}">Electronics</td>
+                                    <td class="text-muted" th:text="${cat.description}">General electronic items</td>
+                                    <td class="pe-4 text-end">
+                                        <a th:href="@{/categories/edit/{id}(id=${cat.categoryId})}"
+                                            class="btn btn-sm btn-outline-primary me-2">Edit</a>
+                                        <!-- Delete link triggers modal -->
+                                        <a href="#" class="btn btn-sm btn-outline-danger me-2" data-bs-toggle="modal"
+                                            th:attr="data-bs-target='#deleteModal-' + ${cat.categoryId}">
+                                            Delete
+                                        </a>
+                                    </td>
+                                </tr>
+
+                                <!-- Delete modal for each category -->
+                                <div th:each="cat : ${categories}">
+                                    <div class="modal fade" th:id="'deleteModal-' + ${cat.categoryId}" tabindex="-1"
+                                        aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title text-danger">Confirm Delete</h5>
+                                                    <button type="button" class="btn-close"
+                                                        data-bs-dismiss="modal"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>Are you sure you want to delete this category?</p>
+                                                    <p><strong>ID:</strong> <span th:text="${cat.categoryId}"></span>
+                                                    </p>
+                                                    <p><strong>Name:</strong> <span th:text="${cat.name}"></span>
+                                                    </p>
+                                                    <p><strong>Description:</strong> <span
+                                                            th:text="${cat.description}"></span></p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <form
+                                                        th:action="@{/categories/delete/{categoryId}(categoryId=${cat.categoryId})}"
+                                                        method="post">
+                                                        <button type="submit" class="btn btn-danger">Yes,
+                                                            Delete</button>
+                                                    </form>
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal">Cancel</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div th:if="${#lists.isEmpty(categories)}">
+                                    <p class="mb-0">No categories found.</p>
+                                </div>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div th:replace="~{fragments/layout :: footer}"></div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
