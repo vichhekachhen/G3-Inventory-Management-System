@@ -1,0 +1,76 @@
+/* Action Bar & Create Button */
+.action-bar {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 25px;
+}
+
+.btn-create {
+    background-color: #2563eb;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.2s;
+}
+
+.btn-create:hover {
+    background-color: #1d4ed8;
+}
+
+/* Table Card Container */
+.table-card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    border: 1px solid #e2e8f0;
+    overflow: hidden;
+}
+
+/* Inventory Table Styles */
+.inventory-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 0.875rem;
+}
+
+.inventory-table th {
+    background-color: #f8fafc;
+    color: #64748b;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+    padding: 16px 24px;
+    border-bottom: 1px solid #edf2f7;
+}
+
+.inventory-table td {
+    padding: 16px 24px;
+    border-bottom: 1px solid #edf2f7;
+    color: #334155;
+}
+
+.inventory-table tr:last-child td {
+    border-bottom: none;
+}
+
+/* Status Badges */
+.status-badge {
+    padding: 4px 12px;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.status-instock { background-color: #dcfce7; color: #166534; }
+.status-outofstock { background-color: #fee2e2; color: #991b1b; }
+
+/* Action Links */
+.text-blue { color: #2563eb; text-decoration: none; margin-right: 12px; }
+.text-red { color: #dc2626; background: none; border: none; cursor: pointer; padding: 0; font-family: inherit; }

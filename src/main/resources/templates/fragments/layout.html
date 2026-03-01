@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    </head>
+<body>
+
+    <nav th:fragment="sidebar" class="sidebar">
+        <div class="sidebar-header">
+            <h3>Inventory System</h3>
+        </div>
+        <ul class="nav-links">
+            <li><a th:href="@{/dashboard}" th:classappend="${activePage == 'dashboard' ? 'active' : ''}">Dashboard</a></li>
+            <li><a th:href="@{/products}" th:classappend="${activePage == 'products' ? 'active' : ''}">Products</a></li>
+            <li><a th:href="@{/categories}" th:classappend="${activePage == 'categories' ? 'active' : ''}">Categories</a></li>
+            <li><a th:href="@{/sales}" th:classappend="${activePage == 'sales' ? 'active' : ''}">Sales</a></li>
+            <li><a th:href="@{/reports}" th:classappend="${activePage == 'reports' ? 'active' : ''}">Reports</a></li>
+            <li><a th:href="@{/settings}" th:classappend="${activePage == 'settings' ? 'active' : ''}">Settings</a></li>
+            
+            <li th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}">
+                <a th:href="@{/users}" th:classappend="${activePage == 'users' ? 'active' : ''}">Manage Users</a>
+            </li>
+            
+            <li class="logout-item">
+                <form th:action="@{/logout}" method="post">
+                    <button type="submit" class="btn-logout">Logout</button>
+                </form>
+            </li>
+        </ul>
+    </nav>
+
+    <header th:fragment="header(pageTitle)" class="top-bar">
+        <h1 th:text="${pageTitle}">Page Title</h1>
+        <div class="user-info">
+            <span>Welcome, <b th:text="${#authentication.name}">User</b></span>
+        </div>
+    </header>
+
+    <footer th:fragment="footer" class="dashboard-footer">
+        <p>&copy; 2026 InventoryPro. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>

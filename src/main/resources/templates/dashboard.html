@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Dashboard - Inventory System</title>
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <div class="dashboard-container">
+        
+        <div th:replace="~{fragments/layout :: sidebar(activePage='dashboard')}"></div>
+
+        <main class="main-content">
+            <div th:replace="~{fragments/layout :: header(pageTitle='Dashboard')}"></div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>Quick Actions</h3>
+                    <p>Select an option from the sidebar to get started.</p>
+                </div>
+                </div>
+
+            <div th:replace="~{fragments/layout :: footer}"></div>
+        </main>
+    </div>
+</body>
+</html>

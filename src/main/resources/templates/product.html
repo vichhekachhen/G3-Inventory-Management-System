@@ -1,0 +1,136 @@
+<!-- <!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Products - Inventory System</title>
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}" />
+    <link rel="stylesheet" th:href="@{/css/products.css}" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <div class="dashboard-container">
+        
+        <div th:replace="~{fragments/layout :: sidebar(activePage='products')}"></div>
+
+        <main class="main-content">
+            <div th:replace="~{fragments/layout :: header(pageTitle='Products')}"></div>
+
+            <div class="action-bar">
+                <a href="/products/new" class="btn-primary">
+                    <span>+</span> Create New Product
+                </a>
+            </div>
+
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>SKU</th>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="product : ${products}">
+                            <td th:text="${product.sku}">SKU123</td>
+                            <td th:text="${product.name}">Product Name</td>
+                            <td th:text="${product.category != null ? product.category.name : '-'}">Category</td>
+                            <td th:text="${'$' + product.price}">$0.00</td>
+                            <td th:text="${product.currentQuantity}">0</td>
+                            <td>
+                                <span th:if="${product.currentQuantity <= product.minStockLevel}" class="badge badge-low">Low Stock</span>
+                                <span th:unless="${product.currentQuantity <= product.minStockLevel}" class="badge badge-ok">In Stock</span>
+                            </td>
+                            <td>
+                                <a th:href="@{/products/edit/{id}(id=${product.productId})}" class="btn-icon">Edit</a>
+                            </td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(products)}">
+                            <td colspan="7" class="text-center">No products found.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Products - Inventory System</title>
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}" />
+    <link rel="stylesheet" th:href="@{/css/product.css}" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body class="bg-light-gray">
+    <div class="dashboard-container">
+        <div th:replace="~{fragments/layout :: sidebar(activePage='products')}"></div>
+
+        <main class="main-content">
+            <div th:replace="~{fragments/layout :: header(pageTitle='Products')}"></div>
+
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <div></div> <a th:href="@{/products/add}" class="btn-create">
+                        <span>+</span> Create New Product
+                    </a>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden">
+                    <table class="inventory-table">
+                        <thead>
+                            <tr>
+                                <th>SKU</th>
+                                <th>NAME</th>
+                                <th>CATEGORY</th>
+                                <th>PRICE</th>
+                                <th>QUANTITY</th>
+                                <th>STATUS</th>
+                                <th>ACTIONS</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="product : ${products}">
+                                <td th:text="${product.sku}">SKU-001</td>
+                                <td class="font-medium" th:text="${product.name}">Product Name</td>
+                                <td th:text="${product.category}">Category</td>
+                                <td th:text="${#numbers.formatCurrency(product.price)}">$0.00</td>
+                                <td th:text="${product.quantity}">0</td>
+                                <td>
+                                    <span class="status-badge" 
+                                          th:classappend="${product.quantity > 0 ? 'status-instock' : 'status-outofstock'}"
+                                          th:text="${product.quantity > 0 ? 'In Stock' : 'Out of Stock'}">
+                                        Status
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="flex gap-2">
+                                        <a th:href="@{/products/edit/{id}(id=${product.id})}" class="text-blue-600">Edit</a>
+                                        <form th:action="@{/products/delete/{id}(id=${product.id})}" method="post">
+                                            <button type="submit" class="text-red-600 bg-none border-none cursor-pointer">Delete</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr th:if="${#lists.isEmpty(products)}">
+                                <td colspan="7" class="text-center py-10 text-gray-500">
+                                    No products found.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
