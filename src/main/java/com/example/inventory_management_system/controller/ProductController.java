@@ -8,9 +8,11 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.example.inventory_management_system.entities.Category;
 import com.example.inventory_management_system.entities.Product;
 import com.example.inventory_management_system.service.CategoryService;
 import com.example.inventory_management_system.service.ProductService;
@@ -54,6 +56,24 @@ public class ProductController {
         }
 
         productService.saveProduct(product);
+        return "redirect:/products";
+    }
+
+    @GetMapping("/edit/{productId}")
+    public String editProduct(@PathVariable("productId") Long productId, Model model) {
+        
+        Product product = productService.findById(productId);
+        List<Category> categories = categoryService.findAll();
+        model.addAttribute("product", product);
+        model.addAttribute("categories", categories);
+
+
+        return "products/edit";
+    }
+
+    @PostMapping("/update/{productId}")
+    public String updateProduct(@PathVariable Long productId, @ModelAttribute("product") Product product) {
+        productService.update(product);
         return "redirect:/products";
     }
 }

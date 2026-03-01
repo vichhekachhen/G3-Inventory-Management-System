@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -42,6 +44,7 @@ public class Product {
     @Column(name = "min_stock_level")
     private Integer minStockLevel = 5;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "expiry_date")
     private LocalDate expiryDate;
 

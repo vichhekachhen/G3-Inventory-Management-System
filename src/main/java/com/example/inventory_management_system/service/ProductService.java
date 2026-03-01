@@ -15,45 +15,35 @@ public class ProductService {
     @Autowired
     private ProductRepository productRepository;
 
-    /**
-     * Retrieves all products from MySQL for the main list view.
-     */
     public List<Product> getAllProducts() {
         return productRepository.findAll();
     }
 
-    /**
-     * Saves a new product or updates an existing one.
-     */
+    public Product findById(Long id) {
+        return productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+    }
+
+    public void update(Product product) {
+        productRepository.save(product);
+    }
+
     public Product saveProduct(Product product) {
         return productRepository.save(product);
     }
 
-    /**
-     * Finds a specific product by its ID for the Edit page.
-     */
     public Optional<Product> getProductById(Long id) {
         return productRepository.findById(id);
     }
 
-    /**
-     * Deletes a product from the database.
-     */
     public void deleteProduct(Long id) {
         productRepository.deleteById(id);
     }
 
-    /**
-     * Optional: Logic to check if a product is low on stock based on your
-     * min_stock_level field.
-     */
     public boolean isLowStock(Product product) {
         return product.getCurrentQuantity() <= product.getMinStockLevel();
     }
 
-    /**
-     * Checks if a SKU is already in use by another product.
-     */
     public boolean isSkuTaken(String sku, Long id) {
         if (id == null) {
             return productRepository.existsBySku(sku);

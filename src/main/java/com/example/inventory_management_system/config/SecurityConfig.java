@@ -18,7 +18,12 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/login", "/css/**", "/js/**", "/image/**").permitAll() // Public assets
                 .requestMatchers("/admin/**").hasAuthority("ADMIN") // Change hasRole to hasAuthority 
-                .requestMatchers("/products/**", "/categories/**").authenticated() // Any logged-in user
+                .requestMatchers(
+                    "/api/**",
+                    "/products/**", 
+                    "/categories/**", 
+                    "/stocks/**"
+                ).authenticated() // Any logged-in user
                 .anyRequest().authenticated() // Everything else needs login
             )
             .formLogin(form -> form

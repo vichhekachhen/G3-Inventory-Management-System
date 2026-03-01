@@ -12,11 +12,14 @@ body {
 /* Sidebar Refinement */
 .sidebar {
     width: 260px;
-    background-color: #0f172a; /* Deeper Navy/Black */
+    min-width: 260px;
+    background-color: #0f172a;
     color: #f8fafc;
     display: flex;
     flex-direction: column;
-    transition: all 0.3s;
+    height: 100vh;
+    position: sticky;
+    top: 0;
 }
 
 .sidebar-header {

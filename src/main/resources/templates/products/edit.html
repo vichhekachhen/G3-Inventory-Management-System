@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <link rel="icon" type="image/png" th:href="@{/image/logo.png}">
+    <title>Edit Product - InventoryPro</title>
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <meta charset="UTF-8">
+</head>
+
+<body class="bg-light">
+    <div class="dashboard-container">
+        <div th:replace="~{fragments/layout :: sidebar(activePage='products')}"></div>
+
+        <main class="main-content">
+            <div th:replace="~{fragments/layout :: header(pageTitle='Edit Product')}"></div>
+
+            <div class="container-fluid p-4">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card shadow-sm border-0">
+                            <div class="card-header bg-white py-3 border-bottom-0">
+                                <h5 class="card-title mb-0 text-primary fw-bold">
+                                    Update Details: <span class="text-dark" th:text="${product.name}">Product
+                                        Name</span>
+                                </h5>
+                            </div>
+
+                            <div class="card-body p-4">
+                                <form th:action="@{/products/update/{id}(id=${product.productId})}"
+                                    th:object="${product}" method="post">
+
+                                    <input type="hidden" th:field="*{productId}" />
+
+                                    <div class="row">
+                                        <div class="col-md-6 mb-4">
+                                            <label for="sku"
+                                                class="form-label fw-bold text-secondary small text-uppercase">Stock
+                                                Keeping Unit (SKU)</label>
+                                            <input type="text" id="sku" th:field="*{sku}"
+                                                class="form-control form-control-lg bg-light"
+                                                th:classappend="${#fields.hasErrors('sku')} ? 'is-invalid' : ''"
+                                                readonly>
+                                            <div class="invalid-feedback" th:if="${#fields.hasErrors('sku')}"
+                                                th:errors="*{sku}"></div>
+                                            <div class="form-text small">SKU cannot be changed after creation to
+                                                maintain transaction integrity.</div>
+                                        </div>
+
+                                        <div class="col-md-6 mb-4">
+                                            <label for="name"
+                                                class="form-label fw-bold text-secondary small text-uppercase">Product
+                                                Name</label>
+                                            <input type="text" id="name" th:field="*{name}"
+                                                class="form-control form-control-lg" required>
+                                        </div>
+
+                                        <div class="col-md-6 mb-4">
+                                            <label for="category"
+                                                class="form-label fw-bold text-secondary small text-uppercase">Category</label>
+                                            <select id="category" th:field="*{category}"
+                                                class="form-select form-control-lg" required>
+                                                <option th:each="cat : ${categories}" th:value="${cat.categoryId}"
+                                                    th:text="${cat.name}"
+                                                    th:selected="${product.category != null && cat.categoryId == product.category.categoryId}">
+                                                </option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-6 mb-4">
+                                            <label for="price"
+                                                class="form-label fw-bold text-secondary small text-uppercase">Unit
+                                                Price</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text bg-light border-end-0">$</span>
+                                                <input type="number" step="0.01" id="price" th:field="*{price}"
+                                                    class="form-control form-control-lg border-start-0" required>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 mb-4">
+                                            <label for="currentQuantity"
+                                                class="form-label fw-bold text-secondary small text-uppercase">Current
+                                                Quantity</label>
+                                            <input type="number" id="currentQuantity" th:field="*{currentQuantity}"
+                                                class="form-control form-control-lg" required>
+                                        </div>
+
+                                        <div class="col-md-4 mb-4">
+                                            <label for="minStockLevel"
+                                                class="form-label fw-bold text-secondary small text-uppercase">Min Stock
+                                                Level</label>
+                                            <input type="number" id="minStockLevel" th:field="*{minStockLevel}"
+                                                class="form-control form-control-lg">
+                                        </div>
+
+                                        <div class="col-md-4 mb-4">
+                                            <label for="expiryDate"
+                                                class="form-label fw-bold text-secondary small text-uppercase "th:field="*{expiryDate}">Expiry
+                                                Date</label>
+                                            <input type="date" id="expiryDate" th:field="*{expiryDate}"
+                                                class="form-control form-control-lg">
+                                        </div>
+                                    </div>
+
+                                    <div class="d-flex justify-content-end gap-2 pt-4 border-top mt-2">
+                                        <a th:href="@{/products}"
+                                            class="btn btn-light px-4 fw-bold text-secondary">Cancel</a>
+                                        <button type="submit" class="btn btn-primary px-5 fw-bold shadow-sm">
+                                            <i class="bi bi-arrow-repeat me-1"></i> Update Product
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div th:replace="~{fragments/layout :: footer}"></div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

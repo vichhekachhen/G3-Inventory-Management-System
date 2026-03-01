@@ -2,9 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <title>Add Category - Inventory System</title>
+    <link rel="icon" type="image/png" th:href="@{/image/logo.png}">
+    <title>Add Category - InventoryPro</title>
     <link rel="stylesheet" th:href="@{/css/dashboard.css}" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <meta charset="UTF-8">
 </head>
 
@@ -17,32 +19,42 @@
 
             <div class="container-fluid p-4">
                 <div class="row">
-                    <div class="col-md">
-                        <div class="card shadow-sm border-0">
+                    <div class="col-12"> <div class="card shadow-sm border-0">
                             <div class="card-header bg-white py-3 border-bottom-0">
-                                <h5 class="card-title mb-0 text-primary">Category Details</h5>
+                                <h5 class="card-title mb-0 text-primary fw-bold">Category Details</h5>
                             </div>
+                            
                             <div class="card-body p-4">
                                 <form th:action="@{/categories/save}" th:object="${category}" method="post">
 
                                     <div class="mb-4">
-                                        <label for="name" class="form-label fw-bold text-secondary">Category
-                                            Name</label>
+                                        <label for="name" class="form-label fw-bold text-secondary small text-uppercase">
+                                            Category Name
+                                        </label>
                                         <input type="text" id="name" th:field="*{name}"
-                                            class="form-control form-control-lg" placeholder="" required>
-                                        <div class="form-text">*Must be a unique name for your inventory grouping.</div>
+                                            class="form-control form-control-lg" 
+                                            placeholder="" required>
+                                        <div class="form-text small">
+                                            *Must be a unique name for your inventory grouping.
+                                        </div>
                                     </div>
 
                                     <div class="mb-4">
-                                        <label for="description"
-                                            class="form-label fw-bold text-secondary">Description</label>
-                                        <textarea id="description" th:field="*{description}" class="form-control"
-                                            rows="4" placeholder=""></textarea>
+                                        <label for="description" class="form-label fw-bold text-secondary small text-uppercase">
+                                            Description
+                                        </label>
+                                        <textarea id="description" th:field="*{description}" 
+                                            class="form-control" rows="4" 
+                                            placeholder="Briefly describe the items in this category..."></textarea>
                                     </div>
 
-                                    <div class="d-flex justify-content-end gap-2 pt-3 border-top">
-                                        <a th:href="@{/categories}" class="btn btn-light px-4">Cancel</a>
-                                        <button type="submit" class="btn btn-primary px-4">Save Category</button>
+                                    <div class="d-flex justify-content-end gap-2 pt-4 border-top mt-2">
+                                        <a th:href="@{/categories}" class="btn btn-light px-4 fw-bold text-secondary">
+                                            Cancel
+                                        </a>
+                                        <button type="submit" class="btn btn-primary px-5 fw-bold shadow-sm">
+                                            <i class="bi bi-check-lg me-1"></i> Save Category
+                                        </button>
                                     </div>
                                 </form>
                             </div>
@@ -50,10 +62,10 @@
                     </div>
                 </div>
             </div>
+            <div th:replace="~{fragments/layout :: footer}"></div>
         </main>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>
