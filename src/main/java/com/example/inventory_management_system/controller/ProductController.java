@@ -29,9 +29,9 @@ public class ProductController {
 
     @GetMapping
     public String listProducts(Model model) {
-        List<Product> products = productService.getAllProducts();
-        model.addAttribute("products", products);
-        model.addAttribute("activePage", "products");
+        model.addAttribute("products", productService.getAllProducts());
+        model.addAttribute("product", new Product()); // for form binding
+        model.addAttribute("activePage", "products"); // sidebar highlighting
         return "products/list";
     }
 
@@ -61,12 +61,11 @@ public class ProductController {
 
     @GetMapping("/edit/{productId}")
     public String editProduct(@PathVariable("productId") Long productId, Model model) {
-        
+
         Product product = productService.findById(productId);
         List<Category> categories = categoryService.findAll();
         model.addAttribute("product", product);
         model.addAttribute("categories", categories);
-
 
         return "products/edit";
     }
@@ -76,4 +75,11 @@ public class ProductController {
         productService.update(product);
         return "redirect:/products";
     }
+
+    @PostMapping("/delete/{productId}")
+    public String deleteProduct(@PathVariable Long productId) {
+        productService.deleteProduct(productId);
+        return "redirect:/products";
+    }
+
 }

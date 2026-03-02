@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <meta charset="UTF-8">
 </head>
-<body class="bg-light">
+<body>
     <div class="dashboard-container">
         <div th:replace="~{fragments/layout :: sidebar(activePage='categories')}"></div>
 
@@ -17,7 +17,7 @@
 
             <div class="container-fluid p-4">
                 <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h4 class="fw-bold mb-0">Product Categories</h4>
+                    <div></div>
                     <a th:href="@{/categories/add}" class="btn btn-primary px-4 shadow-sm">
                         <i class="bi bi-plus-lg"></i> Create New
                     </a>
@@ -64,6 +64,7 @@
                 </div>
             </div>
 
+            <!-- Modal-delete -->
             <div th:each="cat : ${categories}">
                 <div class="modal fade" th:id="'deleteModal-' + ${cat.categoryId}" tabindex="-1" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
