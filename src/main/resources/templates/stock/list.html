@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Stock History - Inventory System</title>
+    <title>Stock History - InventoryPro</title>
     <link rel="stylesheet" th:href="@{/css/dashboard.css}" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.bootstrap5.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bootstrap-4/bootstrap-4.css" rel="stylesheet">
     <meta charset="UTF-8">
 </head>
 <body class="bg-light">
@@ -18,8 +20,8 @@
             <div class="container-fluid p-4">
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <h4 class="text-secondary fw-bold">Transaction History</h4>
-                    <a th:href="@{/stock/add}" class="btn btn-primary px-4 shadow-sm">
-                        + New Movement
+                    <a th:href="@{/stock}" class="btn btn-primary px-4 shadow-sm">
+                        <i class="bi bi-arrow-left me-1"></i> Management View
                     </a>
                 </div>
 
@@ -27,34 +29,15 @@
                     <div class="card-body p-4">
                         <table id="transactionTable" class="table table-hover align-middle w-100">
                             <thead class="table-light">
-                                <tr>
-                                    <th>Date</th>
-                                    <th>Product</th>
+                                <tr class="small text-uppercase text-secondary">
+                                    <th>Product Info</th>
                                     <th>Type</th>
-                                    <th>Quantity</th>
-                                    <th>User</th>
-                                    <th>Reason/Ref</th>
+                                    <th>Movement</th>
+                                    <th>Date</th>
+                                    <th>Handled By</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr th:each="tx : ${transactions}">
-                                    <td th:text="${#temporals.format(tx.transactionDate, 'yyyy-MM-dd HH:mm')}">Date</td>
-                                    <td>
-                                        <div class="fw-bold" th:text="${tx.product.name}">Product</div>
-                                        <small class="text-muted" th:text="${tx.product.sku}">SKU</small>
-                                    </td>
-                                    <td>
-                                        <span th:text="${tx.type}" 
-                                              th:classappend="${tx.type.name() == 'STOCK_IN' ? 'badge bg-success' : 
-                                                              (tx.type.name() == 'STOCK_OUT' ? 'badge bg-danger' : 'badge bg-warning text-dark')}">
-                                            TYPE
-                                        </span>
-                                    </td>
-                                    <td class="fw-bold" th:text="${tx.quantity}">0</td>
-                                    <td th:text="${tx.user.username}">Admin</td>
-                                    <td class="text-muted small" th:text="${tx.reason}">Notes</td>
-                                </tr>
-                            </tbody>
+                            <tbody></tbody>
                         </table>
                     </div>
                 </div>
@@ -64,13 +47,13 @@
     </div>
 
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
-    
     <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
-
-    <script src="src\main\resources\static\js\stock_transaction.js"></script>
+    
+    <script th:src="@{/js/stock_transaction.js}"></script>
 </body>
 </html>

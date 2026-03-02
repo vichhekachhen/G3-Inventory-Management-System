@@ -16,7 +16,7 @@ import com.example.inventory_management_system.service.ProductService;
 @RequestMapping("/stocks")
 public class StockController {
 
-    @Autowired // <--- ADD THIS ANNOTATION
+    @Autowired
     private ProductService productService;
 
     @GetMapping
@@ -37,7 +37,6 @@ public class StockController {
 
     @GetMapping("/add")
     public String showAddForm(Model model) {
-        // Logic for the form page
         return "stock/form";
     }
 

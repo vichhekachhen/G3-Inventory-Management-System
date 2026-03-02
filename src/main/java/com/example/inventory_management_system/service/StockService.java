@@ -11,5 +11,7 @@ public interface StockService {
     void processTransaction(StockTransaction tx);
     List<StockTransaction> getRecentTransactions();
     Page<StockTransaction> getTransactionsPage(Pageable pageable);
+    void processStockIn(StockTransaction transaction, String username);
+    StockTransaction processStockOut(StockTransaction transaction, String username);
 
 }
