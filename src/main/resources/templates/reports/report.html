@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <link rel="icon" type="image/png" th:href="@{/image/logo.png}">
     <title>Reports - InventoryPro</title>
@@ -7,40 +8,81 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 </head>
+
 <body class="bg-light">
     <div class="dashboard-container">
+        <!-- Sidebar -->
         <div th:replace="~{fragments/layout :: sidebar(activePage='reports')}"></div>
+
+        <!-- Main Content -->
         <main class="main-content">
+            <!-- Header -->
             <div th:replace="~{fragments/layout :: header(pageTitle='Inventory Reports')}"></div>
 
             <div class="container-fluid p-4">
-                <div class="row g-4 mb-4">
-                    <div class="col-md-3">
-                        <div class="card border-0 shadow-sm bg-primary text-white">
-                            <div class="card-body">
-                                <div class="small">Total Stock Value</div>
-                                <h3 class="fw-bold">$45,200</h3>
+
+                <!-- Summary Section -->
+                <section class="mb-5">
+                    <h4 class="fw-bold text-secondary mb-4">Summary Overview</h4>
+                    <div class="card border-0 shadow-sm rounded-3">
+                        <div class="card-body p-0">
+                            <table class="table table-striped table-hover align-middle mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th class="fw-bold">Metric</th>
+                                        <th class="fw-bold">Value</th>
+                                        <th class="fw-bold">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Total Products</td>
+                                        <td class="fw-bold text-dark" th:text="${totalProducts}">0</td>
+                                        <td><span class="badge rounded-pill bg-success-subtle text-success">Active</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Estimated Stock Value</td>
+                                        <td class="fw-bold text-dark" th:text="${stockValue}">$0</td>
+                                        <td><span class="badge rounded-pill bg-info-subtle text-info">Stable</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Low Stock</td>
+                                        <td class="fw-bold text-dark" th:text="${lowStockCount}">0</td>
+                                        <td><span class="badge rounded-pill bg-danger-subtle text-danger">Critical</span></td>
+                                    </tr>
+                                     <tr>
+                                        <td>Expiring Soon</td>
+                                        <td class="fw-bold text-dark" th:text="${expiringSoonCount}">0</td>
+                                        <td><span class="badge rounded-pill bg-danger-subtle text-danger">Critical</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Stock Movement Analysis -->
+                <section>
+                    <div class="card border-0 shadow-sm rounded-3">
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <h5 class="fw-bold mb-0">Stock Movement Analysis</h5>
+                                <button class="btn btn-outline-secondary btn-sm">
+                                    <i class="bi bi-download me-1"></i> Export PDF
+                                </button>
+                            </div>
+                            <div class="bg-light rounded p-5 text-center text-muted">
+                                <i class="bi bi-graph-up display-1 mb-3"></i>
+                                <p>Chart Data will be rendered using Chart.js here.</p>
                             </div>
                         </div>
                     </div>
-                    </div>
+                </section>
 
-                <div class="card border-0 shadow-sm">
-                    <div class="card-body p-4">
-                        <div class="d-flex justify-content-between align-items-center mb-4">
-                            <h5 class="fw-bold">Stock Movement Analysis</h5>
-                            <button class="btn btn-outline-secondary btn-sm">
-                                <i class="bi bi-download me-1"></i> Export PDF
-                            </button>
-                        </div>
-                        <div class="bg-light rounded p-5 text-center text-muted">
-                            <i class="bi bi-graph-up display-1 mb-3"></i>
-                            <p>Chart Data will be rendered using Chart.js here.</p>
-                        </div>
-                    </div>
-                </div>
             </div>
         </main>
     </div>
 </body>
+
+
 </html>

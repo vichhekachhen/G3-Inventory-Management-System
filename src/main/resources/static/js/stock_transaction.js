@@ -3,6 +3,7 @@ $(document).ready(function () {
     const table = $('#transactionTable').DataTable({
         processing: true,
         serverSide: true,
+        searching: true,
         autoWidth: false, // Set to false to prevent 'style' calculation errors
         scrollX: true,
         ajax: "/api/stock/transactions",
