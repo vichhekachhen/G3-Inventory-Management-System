@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="icon" type="image/png" th:href="@{/image/logo.png}">
+    <title>Sales - InventoryPro</title>
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+</head>
+<body class="bg-light">
+    <div class="dashboard-container">
+        <div th:replace="~{fragments/layout :: sidebar(activePage='sales')}"></div>
+        <main class="main-content">
+            <div th:replace="~{fragments/layout :: header(pageTitle='New Sale')}"></div>
+
+            <div class="container-fluid p-4">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card border-0 shadow-sm">
+                            <div class="card-body p-4">
+                                <h5 class="fw-bold mb-4">Transaction Details</h5>
+                                <form id="saleForm">
+                                    <div class="mb-3">
+                                        <label class="form-label small fw-bold">Select Product</label>
+                                        <select class="form-select" id="saleProduct" required>
+                                            <option th:each="p : ${products}" th:value="${p.productId}" 
+                                                    th:text="${p.name} + ' ($' + ${p.price} + ')'"></option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label small fw-bold">Quantity</label>
+                                        <input type="number" class="form-control" id="saleQty" min="1" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary w-100 py-2">
+                                        <i class="bi bi-cart-plus me-2"></i> Complete Sale
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card border-0 shadow-sm">
+                            <div class="card-body p-4">
+                                <h5 class="fw-bold mb-4">Today's Sales</h5>
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr class="small text-muted text-uppercase">
+                                            <th>Time</th>
+                                            <th>Item</th>
+                                            <th>Qty</th>
+                                            <th>Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="todaySales">
+                                        </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

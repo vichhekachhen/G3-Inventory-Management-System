@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="icon" type="image/png" th:href="@{/image/logo.png}">
+    <title>Reports - InventoryPro</title>
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+</head>
+<body class="bg-light">
+    <div class="dashboard-container">
+        <div th:replace="~{fragments/layout :: sidebar(activePage='reports')}"></div>
+        <main class="main-content">
+            <div th:replace="~{fragments/layout :: header(pageTitle='Inventory Reports')}"></div>
+
+            <div class="container-fluid p-4">
+                <div class="row g-4 mb-4">
+                    <div class="col-md-3">
+                        <div class="card border-0 shadow-sm bg-primary text-white">
+                            <div class="card-body">
+                                <div class="small">Total Stock Value</div>
+                                <h3 class="fw-bold">$45,200</h3>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body p-4">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h5 class="fw-bold">Stock Movement Analysis</h5>
+                            <button class="btn btn-outline-secondary btn-sm">
+                                <i class="bi bi-download me-1"></i> Export PDF
+                            </button>
+                        </div>
+                        <div class="bg-light rounded p-5 text-center text-muted">
+                            <i class="bi bi-graph-up display-1 mb-3"></i>
+                            <p>Chart Data will be rendered using Chart.js here.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

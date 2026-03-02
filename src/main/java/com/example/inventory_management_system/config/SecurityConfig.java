@@ -23,7 +23,11 @@ public class SecurityConfig {
                                 "/products/**",
                                 "/categories/**",
                                 "/stocks/**",
-                                "/users/**")
+                                "/users/**",
+                                "/sales/**",
+                                "/reports/**",
+                                "/settings/**"
+                        )
                         .authenticated() // Any logged-in user
                         .anyRequest().authenticated() // Everything else needs login
                 )

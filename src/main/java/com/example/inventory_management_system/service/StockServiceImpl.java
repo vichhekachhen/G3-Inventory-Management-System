@@ -60,6 +60,14 @@ public class StockServiceImpl implements StockService {
     }
 
     @Override
+    public Page<StockTransaction> getTransactionsPage(Pageable pageable, String search) {
+        if (search != null && !search.isEmpty()) {
+            return transactionRepository.searchTransactions(search, pageable);
+        }
+        return transactionRepository.findAll(pageable);
+    }
+
+    @Override
     @Transactional
     public void processStockIn(StockTransaction transaction, String username) {
         // 1. Fetch the managed product entity
