@@ -15,23 +15,23 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/login", "/css/**", "/js/**", "/image/**").permitAll() // Public assets
-                .requestMatchers("/admin/**").hasAuthority("ADMIN") // Change hasRole to hasAuthority 
-                .requestMatchers(
-                    "/api/**",
-                    "/products/**", 
-                    "/categories/**", 
-                    "/stocks/**"
-                ).authenticated() // Any logged-in user
-                .anyRequest().authenticated() // Everything else needs login
-            )
-            .formLogin(form -> form
-                .loginPage("/login") // Your custom login page
-                .defaultSuccessUrl("/dashboard", true)
-                .permitAll()
-            )
-            .logout(logout -> logout.permitAll());
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/login", "/css/**", "/js/**", "/image/**").permitAll() // Public assets
+                        .requestMatchers("/admin/**").hasAuthority("ADMIN") // Change hasRole to hasAuthority
+                        .requestMatchers(
+                                "/api/**",
+                                "/products/**",
+                                "/categories/**",
+                                "/stocks/**",
+                                "/users/**")
+                        .authenticated() // Any logged-in user
+                        .anyRequest().authenticated() // Everything else needs login
+                )
+                .formLogin(form -> form
+                        .loginPage("/login") // Your custom login page
+                        .defaultSuccessUrl("/dashboard", true)
+                        .permitAll())
+                .logout(logout -> logout.permitAll());
 
         return http.build();
     }

@@ -3,10 +3,9 @@
 
 <head>
     <link rel="icon" type="image/png" th:href="@{/image/logo.png}">
-    <title>Products - Inventory System</title>
+    <title>Products - InventoryPro</title>
     <link rel="stylesheet" th:href="@{/css/dashboard.css}" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <meta charset="UTF-8">
 </head>
@@ -20,7 +19,7 @@
 
             <div class="container-fluid p-4">
                 <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h4 class="fw-bold">Product Management</h4>
+                    <div></div>
                     <a th:href="@{/products/add}" class="btn btn-primary px-4 shadow-sm">
                         <i class="bi bi-plus-lg"></i> Create New
                     </a>
@@ -30,22 +29,23 @@
                     <div class="card-body p-0">
                         <table class="table table-hover mb-0 align-middle">
                             <thead class="table-light">
-                                <tr class="small text-uppercase text-secondary">
-                                    <th class="ps-4">SKU</th>
-                                    <th>Product Name</th>
-                                    <th>Category</th>
-                                    <th>Price</th>
-                                    <th>Quantity</th>
-                                    <th>Expiry Date</th>
-                                    <th>Status</th>
-                                    <th class="pe-4 text-end">Actions</th>
+                                <tr>
+                                    <th class="ps-4 py-3 text-secondary text-uppercase small fw-bold">SKU</th>
+                                    <th class="py-3 text-secondary text-uppercase small fw-bold">Product Name</th>
+                                    <th class="py-3 text-secondary text-uppercase small fw-bold">Category</th>
+                                    <th class="py-3 text-secondary text-uppercase small fw-bold">Price</th>
+                                    <th class="py-3 text-secondary text-uppercase small fw-bold">Quantity</th>
+                                    <th class="py-3 text-secondary text-uppercase small fw-bold">Expiry Date</th>
+                                    <th class="py-3 text-secondary text-uppercase small fw-bold">Status</th>
+                                    <th class="pe-4 py-3 text-secondary text-uppercase small fw-bold text-end">Actions
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr th:each="p : ${products}">
                                     <td class="ps-4 text-muted" th:text="${p.sku}">C0001</td>
-                                    <td class="fw-bold" th:text="${p.name}">Chinese Coffee Bean</td>
-                                    <td class="text-muted" th:text="${p.category.name}">Coffee Bean</td>
+                                    <td class="fw-bold text-dark" th:text="${p.name}">Coffee Bean</td>
+                                    <td class="text-muted" th:text="${p.category.name}">Category</td>
                                     <td th:text="${#numbers.formatCurrency(p.price)}">$3.50</td>
                                     <td th:text="${p.currentQuantity}">100</td>
                                     <td class="text-muted" th:text="${p.expiryDate ?: 'N/A'}">N/A</td>
@@ -53,14 +53,30 @@
                                         <span
                                             class="badge rounded-pill bg-success-subtle text-success border border-success-subtle px-3"
                                             th:if="${p.currentQuantity > 0}">In Stock</span>
+                                        <span
+                                            class="badge rounded-pill bg-danger-subtle text-danger border border-danger-subtle px-3"
+                                            th:if="${p.currentQuantity == 0}">Out of Stock</span>
                                     </td>
                                     <td class="pe-4 text-end">
+                                        <!-- Edit button -->
                                         <a th:href="@{/products/edit/{id}(id=${p.productId})}"
-                                            class="btn btn-sm btn-outline-primary me-2">Edit</a>
-                                        <form th:action="@{/products/delete/{id}(id=${p.productId})}" method="post"
-                                            class="d-inline">
-                                            <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
-                                        </form>
+                                            class="btn btn-sm btn-outline-primary me-1 border-0 text-decoration-none">
+                                            <i class="bi bi-pencil-square"></i> Edit
+                                        </a>
+
+                                        <!-- Delete button -->
+                                        <button type="button" class="btn btn-sm btn-outline-danger border-0"
+                                            data-bs-toggle="modal" th:data-bs-target="'#deleteModal-' + ${p.productId}">
+                                            <i class="bi bi-trash"></i> Delete
+                                        </button>
+                                    </td>
+
+                                </tr>
+
+                                <tr th:if="${#lists.isEmpty(products)}">
+                                    <td colspan="8" class="text-center py-5 text-muted">
+                                        <i class="bi bi-inbox fs-1 d-block mb-2"></i>
+                                        <p class="mb-0">No products found.</p>
                                     </td>
                                 </tr>
                             </tbody>
@@ -68,14 +84,47 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Modal-delete -->
+            <div th:each="p : ${products}">
+                <div class="modal fade" th:id="'deleteModal-' + ${p.productId}" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content border-0 shadow">
+                            <div class="modal-header border-0 pb-0">
+                                <h5 class="modal-title fw-bold text-danger">Confirm Deletion</h5>
+                            </div>
+                            <div class="modal-body py-4">
+                                <p class="mb-1">Are you sure you want to delete this product?</p>
+                                <div class="bg-light p-3 rounded mt-3">
+                                    <div class="small text-uppercase text-muted fw-bold">Product Name</div>
+                                    <div class="fw-bold fs-5" th:text="${p.name}">Product Name</div>
+                                    <div class="small text-uppercase text-muted fw-bold mt-2">Category</div>
+                                    <div class="fw-bold" th:text="${p.category.name}">Category</div>
+                                    <div class="small text-muted mt-2">SKU: <span th:text="${p.sku}">C0001</span></div>
+                                </div>
+                                <p class="text-danger small mt-3 mb-0">
+                                    <i class="bi bi-exclamation-triangle-fill"></i> This action cannot be undone.
+                                </p>
+                            </div>
+                            <div class="modal-footer border-0 pt-0">
+                                <button type="button" class="btn btn-light px-4" data-bs-dismiss="modal">Cancel</button>
+                                <form th:action="@{/products/delete/{productId}(productId=${p.productId})}"
+                                    method="post">
+                                    <button type="submit" class="btn btn-danger px-4">Delete Product</button>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
             <div th:replace="~{fragments/layout :: footer}"></div>
         </main>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

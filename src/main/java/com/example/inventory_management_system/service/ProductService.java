@@ -16,11 +16,11 @@ public class ProductService {
     private ProductRepository productRepository;
 
     public List<Product> getAllProducts() {
-        return productRepository.findAll();
+        return productRepository.findByIsDelete(0);
     }
 
     public Product findById(Long id) {
-        return productRepository.findById(id)
+        return productRepository.findByProductIdAndIsDelete(id, 0)
                 .orElseThrow(() -> new RuntimeException("Product not found"));
     }
 
@@ -36,10 +36,6 @@ public class ProductService {
         return productRepository.findById(id);
     }
 
-    public void deleteProduct(Long id) {
-        productRepository.deleteById(id);
-    }
-
     public boolean isLowStock(Product product) {
         return product.getCurrentQuantity() <= product.getMinStockLevel();
     }
@@ -49,5 +45,15 @@ public class ProductService {
             return productRepository.existsBySku(sku);
         }
         return productRepository.existsBySkuAndProductIdNot(sku, id);
+    }
+
+    
+    // Soft delete product (set isDelete = true)
+    public void deleteProduct(Long id) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+
+        product.setIsDelete(1); // mark as deleted
+        productRepository.save(product);
     }
 }
